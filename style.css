@@ -1,3 +1,10 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #container {
     width: 960px;
     height: 960px;
@@ -6,4 +13,9 @@
 
 .elements:hover {
     background-color: grey;
+}
+
+#gridButton {
+    width: 200px;
+    height: 50px;
 }

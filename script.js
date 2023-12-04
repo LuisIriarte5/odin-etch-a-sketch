@@ -1,32 +1,48 @@
-const container = document.querySelector('#container');
-const row = [];
-const column = [];
-for (let i = 0; i < 16; i++) {
+function gridMaker (num) {
+    const container = document.querySelector('#container');
+    const row = [];
+    const column = [];
 
-    row[i] = document.createElement('div');
+    cleanParent(container);
+
+    for (let i = 0; i < num; i++) {
+
+        row[i] = document.createElement('div');
     
-    for (let j = 0; j < 16; j++) {
+        for (let j = 0; j < num; j++) {
 
-        column[j] = document.createElement('div');
-        column[j].style.border = '1px solid yellow';
-        column[j].style.width = '50px';
-        column[j].style.height = '50px';
-        column[j].textContent = `${i+1},${j+1}`;
-        column[j].setAttribute('class','elements');
-        row[i].appendChild(column[j]);
+            column[j] = document.createElement('div');
+            column[j].style.width = `${960/num}px`;
+            column[j].style.height = `${960/num}px`;
+            column[j].setAttribute('class','elements');
+            row[i].appendChild(column[j]);
+        }
+
+        row[i].style.cssText = 'display: flex; justify-self: stretch; align-items: stretch';
+        container.appendChild(row[i]);
     }
-
-    row[i].style.display = 'flex';
-    container.appendChild(row[i]);
+    
+    container.style.cssText = 'display: flex; flex-direction: column; justify-content: space-between; align-items: stretch;';
 }
 
-// const elements = document.querySelectorAll('.elements');
-// elements.forEach((items) => {
-//     items.addEventListener('mouseover', () => {
-//         items.setAttribute('style','background-color: yellow');
-//     });
+function cleanParent(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
-//     items.addEventListener('mouseout', () => {
-//         items.setAttribute('style','background-color: null');
-//     });
-// });
+function randomize(limit) {
+    return Math.floor(Math.random()*(limit+1));
+}
+
+const btn = document.querySelector('button');
+btn.addEventListener('click', () => {
+    let size = prompt('Insert the new size of the grid (max 100):');
+    if (isNaN(parseInt(size)) || parseInt(size) < 0 || parseInt(size) >100) {
+        alert('You have to insert a NUMBER between 0 and 100.');
+    } else {
+        gridMaker(parseInt(size));
+    }
+});
+
+gridMaker(16);
