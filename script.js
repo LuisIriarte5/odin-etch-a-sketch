@@ -41,16 +41,25 @@ function buttonHighlighter (btn) {
             btnChoice[0].style.background = 'rgb(200,200,200)';
             btnChoice[1].style.background = null;
             btnChoice[2].style.background = null;
+            btnChoice[3].style.background = null;
             break;
         case 'rainbow button':
             btnChoice[0].style.background = null;
             btnChoice[1].style.background = 'rgb(200,200,200)';
             btnChoice[2].style.background = null;
+            btnChoice[3].style.background = null;
             break;
         case 'darkening button':
             btnChoice[0].style.background = null;
             btnChoice[1].style.background = null;
             btnChoice[2].style.background = 'rgb(200,200,200)';
+            btnChoice[3].style.background = null;
+            break;
+        case 'draw button':
+            btnChoice[0].style.background = null;
+            btnChoice[1].style.background = null;
+            btnChoice[2].style.background = null;
+            btnChoice[3].style.background = 'rgb(200,200,200)';
             break;
     }
 }
@@ -71,7 +80,18 @@ function maker(size, effect) {
                     content.style.background = `rgb(${randomize(255)},${randomize(255)},${randomize(255)})`;
                     break;
                 case 'darkening button':
-                    content.style.background = 'yellow';
+                    drk = content.style.background;
+                    drk = drk.split(",");
+                    drk = parseInt(drk[1]);
+                    if (isNaN(drk)) {
+                        content.style.background = 'rgb(250,250,250)';
+                    }
+                    else {
+                        content.style.background = `rgb(${drk-5},${drk-5},${drk-5})`;
+                    }
+                    break;
+                case 'draw button':
+                    content.style.background = 'black';
                     break;
             }
         });
@@ -83,9 +103,6 @@ function maker(size, effect) {
                 case 'rainbow button':
                     content.style.background = null;
                     break;
-                case 'darkening button':
-                    content.style.background = 'green';
-                    break;
             }
         });
     });
@@ -94,8 +111,6 @@ function maker(size, effect) {
 const btnGrid = document.querySelector('#gridButton');
 const btnChoice = document.querySelectorAll('.button');
 const btnClear = document.querySelector('#clearButton');
-
-let hov = 1, rnb, drk;//this variables controls 
 
 btnGrid.addEventListener('click', () => {
     let newSize = prompt('Insert the new size of the grid (max 100):');
@@ -109,10 +124,16 @@ btnGrid.addEventListener('click', () => {
 
 btnChoice.forEach((option) => {
     option.addEventListener('click', (event) => {
-        console.log(event.srcElement.getAttribute('class'));
         effect = event.srcElement.getAttribute('class');
+        
+        if (effect === 'darkening button') {let drk = 255;}
+
         maker(size, effect);
     });
+});
+
+btnClear.addEventListener('click', () => {
+    maker(size,effect);
 });
 
 let size = 16;
